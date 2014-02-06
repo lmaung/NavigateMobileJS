@@ -3,158 +3,217 @@
 <head>
     <title></title>
     <meta charset="utf-8" />
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     <link href="kendo/styles/kendo.mobile.all.min.css" rel="stylesheet" />
-    <link href="styles/main.css" rel="stylesheet" />
+    <link href="styles/main.css" rel="stylesheet" /> 
 
     <script src="cordova.js"></script>
     <script src="kendo/js/jquery.min.js"></script>
     <script src="kendo/js/kendo.mobile.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
-
-    <script src="scripts/login.js"></script>
-    <script src="scripts/location.js"></script>
-    <script src="scripts/weather.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="http://js.cit.api.here.com/se/2.5.3/jsl.js?with=all"></script>
+ 
     <script src="scripts/app.js"></script>
 
 </head>
-<body>
-    <!--Home-->
-    <div id="tabstrip-home"
-        data-role="view"
-        data-title="Home">
-
-        <div class="view-content">
-            <h1>Welcome!</h1>
-            <a id="skin-change" data-role="button" data-click="app.changeSkin">Flat</a>
-            <p>
-                Telerik AppBuilder&trade; enables you to build cross-platform device applications regardless of your
-                    development platform by combining the convenience of a local development toolset with the
-                    power and flexibility of the cloud.
-            </p>
-            <div class="img"></div>
-        </div>
-    </div>
-
-    <!--Login-->
-    <div id="tabstrip-login"
-        data-role="view"
-        data-title="Login"
-        data-model="app.loginService.viewModel">
-
-        <div class="view-content">
-            <div class="logo"></div>
-            <h3 data-bind="invisible: isLoggedIn">Enter your credentials:</h3>
-            <h1 class="welcome" data-bind="visible: isLoggedIn">Welcome, <span data-bind="text: username"></span>!
-            </h1>
-            <div class="buttonArea">
-                <input type="submit" id="logout" data-role="button" data-bind="click: onLogout, visible: isLoggedIn" class="login-button" value="Logout" />
+<body style="font-weight: 300; font-family:'Open Sans'; font-size:1em; background:#000;">
+    
+     <!--MENU PAGE-->
+    <div id="mapMenu" data-role="view" data-transition="slide" data-show="onMapMenuView">
+        <div data-role="header">
+            <div data-role="navbar" >
+                <span data-role="view-title" id="appHeader">NAVIGATE</span> 
             </div>
-
-            <form data-bind="events: { keyup: checkEnter }">
-                <ul data-role="listview" data-style="inset" data-bind="invisible: isLoggedIn">
-                    <li>
-                        <label>
-                            Username
-                                <input type="text" data-bind="value: username" />
-                        </label>
-                    </li>
-                    <li>
-                        <label>
-                            Password
-                                <input type="password" data-bind="value: password" />
-                        </label>
-                    </li>
-                </ul>
-
-                <div class="buttonArea">
-                    <input type="submit" id="login" data-role="button" data-bind="click: onLogin, invisible: isLoggedIn" class="login-button" value="Login" />
-                </div>
-            </form>
         </div>
-
-    </div>
-
-    <!--Location-->
-    <div id="tabstrip-location"
-        data-role="view"
-        data-title="Location"
-        data-init="app.locationService.initLocation"
-        data-show="app.locationService.show"
-        data-hide="app.locationService.hide"
-        data-model="app.locationService.viewModel"
-        data-stretch="true">
-
-        <div id="no-map" data-bind="invisible: isGoogleMapsInitialized">
-            Location requires internet connection to display the map.
-        </div>
-        <div id="map-search-wrap" data-bind="visible: isGoogleMapsInitialized">
-            <button id="map-navigate-home" data-bind="click: onNavigateHome"></button>
-            <form onsubmit="return false;">
-                <input id="map-address" type="search" data-bind="value: address" placeholder="Address" />
-                <input id="map-search" type="submit" value="" data-bind="click: onSearchAddress" />
-            </form>
-        </div>
-        <div id="map-canvas" data-bind="visible: isGoogleMapsInitialized"></div>
-
-    </div>
-
-    <!--Weather-->
-    <div id="tabstrip-weather"
-        data-role="view"
-        data-title="Weather"
-        data-model="app.weatherService.viewModel">
-
-        <div class="weather">
-            <p class="weather-title">20-Day Forecast</p>
-
-            <div class="separator">
-                <div class="dark"></div>
-                <div class="light"></div>
-            </div>
-
-            <ul class="forecast-list"
-                data-role="listview"
-                data-bind="source: weatherDataSource"
-                data-template="weather-forecast-template">
+        <div class="view-content">
+            <ul data-role="listview" data-style="inset" data-type="group">
+                <li>App Settings
+                    <ul>
+                        <div style="overflow:auto; margin-left:10px;">
+                            <br/>
+                           <a class="menuButton" data-role="button"  data-icon="menuClearSearch" onTouchEnd="clearSearch();"  id="menuClearSearch" style="color:#CCCCCC;">Clear Searches</a>
+                           <a class="menuButton" data-role="button"  data-icon="menuHomeLocation"  id="menuHomeLocation" style="color:#CCCCCC;">Home Location</a>
+                           <a class="menuButton" data-role="button"  data-icon="menuTTS"  id="menuTTS" style="color:#CCCCCC;">TTS Settings</a>
+                           <a class="menuButton" data-role="button"  data-icon="menuHUD"  id="menuHUD" style="color:#CCCCCC;">Show HUD</a>
+                           <a class="menuButton" data-role="button"  data-icon="menuUnits"  id="menuUnits" style="color:#CCCCCC;">Measuring Units</a>
+                           <a class="menuButton" data-role="button"  data-icon="menuNavSettings"  id="menuNavSettings" style="color:#CCCCCC;">Nav. Settings</a>
+                           <a class="menuButton" data-role="button"  data-icon="menuResetData"  id="menuResetData" style="color:#CCCCCC;">Reset Defaults</a>
+                           <a class="menuButton" data-role="button"  data-icon="menuAutoZoom"  id="menuAutoZoom" style="color:#CCCCCC;">Auto Zoom</a>
+                           
+                            <!--a class="menuButton" onTouchEnd="clearData();" data-role="button" data-icon="gpsMenu">Clear Search Result</a>
+                            <a class="menuButton" onTouchEnd="clearData();">Personal Data</a>
+                            <div id="zoomBar" style="margin-bottom:10px; display:none;">
+                                <select id="mySelectZoom" onchange="zoomChoice(this);" style="width:90%; margin-left:15px; font-size:1.1em; font-family:'Open Sans'">
+                                  <option value="1">STREET</option>
+                                  <option value="2">NEIGHBOURHOOD</option>
+                                  <option value="3">CITY</option>
+                                  <option value="4">STATE</option>
+                                  <option value="5">WORLD</option>
+                                </select>
+                            </div>
+                            <a class="menuButton">Home Location</a>
+                            <a class="menuButton" onTouchEnd="toggleZoomMap();">Auto Zoom</a>
+                            <a class="menuButton">Show HUD</a>
+                            <a class="menuButton">Measuring Units</a>
+                            <a class="menuButton">Navigation Settings</a>
+                            <a class="menuButton">TTS Settings</a-->
+                        </div>
+                    </ul>
+                </li>
+                <li>User Safty
+                    <ul>
+                        <li>Enable Safty Warning <input data-role="switch" id="warning-switch" checked="checked" data-change="onChangeWarning"/></li>
+                    </ul>
+                </li>
+                <li>About this app
+                    <ul>
+                        <li>
+                            <table style="font-size:.8em;">
+                                <tr>
+                                    <td><img src="images/here_logo.png" width="50px"></td>
+                                    <td>
+                                        <p>Powered by Nokia Here Maps.</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan=2>
+                                        <p><center>V 1.0</center><br/>
+                                            This application is created by Lwin Maung. The application uses network data to show maps. Your personal data, search history, or travel habits are not saved or tracked by this app. <br/><br/>The full source code behind this app can be downloaded via the link provided below<br/><br/>Special thanks to Min Maung, Greg Levenhagen for testing of this app.
+                                        </p>
+                                    </td>
+                                    
+                                </tr>
+                            </table>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </div>
-    </div>
-
-    <!--Weather forecast template-->
-    <script type="text/x-kendo-tmpl" id="weather-forecast-template">
-        <div>
-            <div class="position-left">
-                <span class="weather-info date">${day}</span>
-            </div>
-            <div class="position-right">
-                <span class="weather-info temperature high">${highTemperature}<sup>&deg;</sup></span>
-                <span class="weather-info temperature low">${lowTemperature}<sup>&deg;</sup></span>
-            </div>
-            <div class="position-center">
-                <span class="weather-icon ${image}"></span>
-            </div>
-        </div>
-    </script>
-
-    <!--Layout-->
-    <div data-role="layout" data-id="tabstrip-layout">
-
-        <!--Header-->
-        <div data-role="header">
-            <div data-role="navbar">
-                <span data-role="view-title"></span>
-            </div>
-        </div>
-
-        <!--Footer-->
         <div data-role="footer">
-            <div data-role="tabstrip">
-                <a href="#tabstrip-home" data-icon="home">Home</a>
-                <a href="#tabstrip-login" data-icon="contacts">Login</a>
-                <a href="#tabstrip-location" data-icon="search">Location</a>
-                <a href="#tabstrip-weather" data-icon="globe">Weather</a>
+            <div id="CloseMenu" style="display:block;">
+                <div data-role="tabstrip">
+                    <a data-role="button" href="#mapPageView" data-icon="tsCloseMenu"></a>
+                </div>
             </div>
         </div>
     </div>
+              
+    <!--MAP PAGE-->
+    <div id="mapPageView"  data-role="view" data-transition="slide" data-show="onMapPageView">
+        <div data-role="header">
+            <div data-role="navbar" >
+                <a data-role="button" data-rel="modalview" href="#modalview-Layer" data-icon="headerLayersIcon" data-align="right"></a>
+                <span data-role="view-title" id="appHeader">NAVIGATE</span> 
+            </div>
+        </div>
+        <div class="view-content">
+            <!-- HUD AREA-->
+            <div style="height:60px; position:relative; z-index:1">
+                <div class="hud" id="hudLocation" style="display:none;">
+                    <table>
+                        <tr>
+                            <td width="50px"><img src="images/ico_phone.png"/></td>
+                            <td><span>Hello World</span></td>
+                            <td width="50px"><img src="images/ico_map.png"/></td>
+                        </tr>
+                    </table>
+                    
+                </div>
+            </div>
+            <!-- MAP AREA-->
+            <div id="mapContainer" onTouchEnd="displayTouchedAreaOnMap();" style="background:#f0eeec; display:block; margin-top:-60px;"></div>
+        </div>
+        <div data-role="footer">
+            <div id="MenuArea">
+                <div data-role="tabstrip" >
+                    <a data-role="button" onTouchEnd="recenterMapOnCurrentLoc();" data-icon="tsLocateMeIcon"></a>
+                    <a data-role="button" href="#mapMenu" data-icon="tsMenuIcon"></a>
+                    <a data-role="button" onTouchEnd="showSearch();" data-icon="tsSearch"></a>
+                </div>
+            </div>
+            <div id="SearchArea" style="display:none;">
+                <div data-role="tabstrip">
+                    <input id="txtSearchField" style="background: rgba(200, 200, 200, 0.5); width:95%; font-size:1.2em; border:0px; border-radius:0px; height:30px; margin-top:5px; padding-left:5px; padding-right:5px;" placeholder="Address or place to search"/>
+                    <a data-role="button" onTouchEnd="searchForLocation();" data-icon="tsSearchNow" style="width:45px;"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Search Result -->
+    <div data-role="modalview" id="modalview-SearchResult" style="width: 90%; height: 220px;" data-modal="false">
+        <div class="modalHeader" data-role="header">
+            <div data-role="navbar" style="">
+                <span id="popupHeader">&nbsp;</span>
+                <a data-click="closeModalViewSearch" data-role="button" data-align="right" data-icon="modalClose"></a>
+            </div> 
+        </div>
+        <p>
+            <span id="popupAddress"></span><br/><br/>
+            <span id="popupPhoneNumber"></span><br/>
+        </p>
+        <div data-role="footer">
+            <div>
+                <div data-role="tabstrip" id="searchPopupTabstrip">
+                    <a data-role="button" onTouchEnd="" data-icon="popupCall"></a>
+                    <a data-role="button" onTouchEnd="" data-icon="popupNav"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+    <!-- LAYER MENU -->
+    <div data-role="modalview" id="modalview-Layer" style="width: 90%; height: 80%;" data-modal="false">
+        <div class="modalHeader" data-role="header">
+            <div data-role="navbar" style="">
+                <span>DATA LAYERS</span>
+                <a data-click="closeModalViewLayer" data-role="button" data-align="right" data-icon="modalClose"></a>
+            </div> 
+        </div>
+        <ul data-role="listview" data-style="inset" data-type="group">
+            <li>Traffic
+                <ul>
+                    <li>Traffic Information<input data-role="switch" id="traffic-switch" checked="checked" data-change="onChangeTraffic"/></li>
+                </ul>
+            </li>
+            <li>Shops / Food
+                <ul>
+                    <li>Supermarkets<input data-role="switch" id="warning-switch" data-change=""/></li>
+                    <li>Restaurants<input data-role="switch" id="restaurant-switch" data-change="onChangeRestaurant"/></li>
+                    <li>Coffee Shops<input data-role="switch" id="warning-switch" data-change=""/></li>
+                </ul>
+            </li>
+            <li>Emergency Services
+                <ul>
+                    <li>Health Services<input data-role="switch" id="warning-switch" data-change=""/></li>
+                    <li>Pharmacies<input data-role="switch" id="warning-switch" data-change=""/></li>
+                    <li>Police/Fire/EMS<input data-role="switch" id="warning-switch" data-change=""/></li>
+                </ul>
+            </li>
+            <li>Travel
+                <ul>
+                    <li>Parking<input data-role="switch" id="warning-switch" data-change=""/></li>
+                    <li>Gas Stations<input data-role="switch" id="warning-switch" data-change=""/></li>
+                    <li>Hotels<input data-role="switch" id="warning-switch" data-change=""/></li>
+                </ul>
+            </li>
+            <li>Others
+                <ul>
+                    <li>Post Office<input data-role="switch" id="warning-switch" data-change=""/></li>
+                    <li>Banks/ATMs<input data-role="switch" id="warning-switch" data-change=""/></li>
+                    <li>Museums<input data-role="switch" id="warning-switch" data-change=""/></li>
+                    <li>Cinemas<input data-role="switch" id="warning-switch" data-change=""/></li>
+                </ul>
+            </li>
+        </ul>
+        <div data-role="footer">
+            <div id="MenuArea">
+                <div data-role="tabstrip" >
+                    &nbsp;
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
 </body>
 </html>

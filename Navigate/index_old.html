@@ -1,0 +1,100 @@
+<!-- (c) 2014 Lwin Maung http://lwin.maungs.com -->
+<!-- GPS Naviagtion software for mobile platform using phoneGap / HTML5 / Mobile web -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <link href='http://fonts.googleapis.com/css?family=Oswald:400,300' rel='stylesheet' type='text/css'>
+    <link href="kendo/styles/kendo.mobile.all.min.css" rel="stylesheet" />
+    <link href="styles/main.css" rel="stylesheet" /> 
+
+    <script src="cordova.js"></script>
+    <script src="kendo/js/jquery.min.js"></script>
+    <script src="kendo/js/kendo.mobile.min.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="http://api.maps.nokia.com/2.2.4/jsl.js?with=all"></script>
+
+    <script src="scripts/login.js"></script>
+    <script src="scripts/location.js"></script>
+    <script src="scripts/weather.js"></script>
+    <script src="scripts/app2.js"></script>
+
+</head>
+<body style="font-weight: 400; font-family:'Oswald'; font-size:1em;">
+    
+    <!--Home-->
+    <div data-role="view" id="mapPageView" data-show="onMapPageView" data-transition="flip" data-layout="drawer-layout" data-title="NAVIGATE">
+        <div class="view-content">
+            <div id="mapContainer" onTouchEnd="locateMe();"></div>
+            <div id="bottomMenu" class="mapButtonArea">
+                <a class="map3xBtn" data-align="left" data-role="button" data-icon="gpsMenu" data-rel="modalview" href="#modalview-login">MENU&nbsp;&nbsp;&nbsp;</a>
+                <a class="map3xBtn" data-align="left" data-role="button" onTouchEnd="followMe();" data-icon="gpsLocate">I AM HERE</a>
+                <a class="map3xBtn" data-align="left" data-role="button" data-icon="gpsSearch">SEARCH</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- DRAWERS -->
+    <div data-role="drawer" id="my-drawer" style="height:100%; width: 87%;" data-views="['mapPageView']" data-stretch="true" data-position="right">
+        <header data-role="header">
+            <div data-role="navbar" class="drawerHeader" style="background:#3168ba; border:transparent;">
+                <span>SETTINGS</span>
+            </div>
+        </header>
+        <div class="menuButtonArea">
+            <div style="background:#3168ba; margin:10px; border-radius:5px; border:1px solid #FFF;">
+                <a class="menu1xBtn" data-align="left" data-role="button" onTouchEnd="clearData();" id="menuClear" data-icon="menuClear">CLEAR PERSONAL DATA</a>
+                <a class="menu1xBtn" data-align="left" data-role="button" onTouchEnd="setHome();" id="menuHome" data-icon="menuHome"style="color:#909090;">HOME LOCATION</a>
+                <a class="menu1xBtn" data-align="left" data-role="button" onTouchEnd="toggleGPSMap();" id="menuGPS" data-icon="menuGPS">ENABLE GPS</a>
+                <a class="menu1xBtn" data-align="left" data-role="button" onTouchEnd="toggleTrafficMap();" id="menuTraffic" data-icon="menuTraffic" style="color:#909090;">TRAFFIC OVERLAY</a>
+                <a class="menu1xBtn" data-align="left" data-role="button" onTouchEnd="toggleZoomMap();" id="menuZoom" data-icon="menuZoom">AUTO ZOOM</a>
+                <div id="zoomBar" style="margin-bottom:10px; display:none;">
+                    <select id="mySelectZoom" onchange="zoomChoice(this)" style="width:75%; margin-left:40px; font-size:1.1em; font-family:'Oswald'">
+                      <option value="1">STREET</option>
+                      <option value="2">NEIGHBOURHOOD</option>
+                      <option value="3">CITY</option>
+                      <option value="4">STATE</option>
+                      <option value="5">WORLD</option>
+                    </select> 
+                    
+                </div>                
+               
+            </div>
+            
+        </div>
+        
+    </div>
+
+    <!-- MAP MENU -->
+    <div data-role="modalview" id="modalview-login" style="width: 90%; border-radius:5px;">
+    <div data-role="header">
+        <div data-role="navbar" style="border-radius:5px 5px 0px 0px;">
+            <span>MENU</span>
+            <a data-click="closeModalViewLogin" data-role="button" data-align="right">OK</a>
+        </div>
+    </div>
+
+    <ul data-role="listview" data-style="inset">
+        <div style="height:300px; margin:10px;">
+            Hello<br/>
+            World
+        </div>
+    </ul>
+    
+</div>
+    
+    <!--Layout-->  
+    <div data-role="layout" data-id="drawer-layout">
+
+        <!--Header-->
+        <div data-role="header">
+            <div data-role="navbar">
+                <a data-role="button" data-rel="drawer" href="#my-drawer" data-icon="drawer-button" data-align="right"></a>
+                <span data-role="view-title" style=""></span>
+            </div>
+        </div>
+        
+    </div>
+</body>
+</html>
