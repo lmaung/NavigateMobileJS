@@ -29,18 +29,21 @@
             <ul data-role="listview" data-style="inset" data-type="group">
                 <li>App Settings
                     <ul>
-                        <div style="overflow:auto; margin-left:10px;">
-                            <br/>
-                           <a class="menuButton" data-role="button"  data-icon="menuClearSearch" onTouchEnd="clearSearch();"  id="menuClearSearch" style="color:#CCCCCC;">Clear Searches</a>
-                           <a class="menuButton" data-role="button"  data-icon="menuHomeLocation"  id="menuHomeLocation" style="color:#CCCCCC;">Home Location</a>
-                           <a class="menuButton" data-role="button"  data-icon="menuTTS"  id="menuTTS" style="color:#CCCCCC;">TTS Settings</a>
-                           <a class="menuButton" data-role="button"  data-icon="menuHUD"  id="menuHUD" style="color:#CCCCCC;">Show HUD</a>
-                           <a class="menuButton" data-role="button"  data-icon="menuUnits"  id="menuUnits" style="color:#CCCCCC;">Measuring Units</a>
-                           <a class="menuButton" data-role="button"  data-icon="menuNavSettings"  id="menuNavSettings" style="color:#CCCCCC;">Nav. Settings</a>
-                           <a class="menuButton" data-role="button"  data-icon="menuResetData"  id="menuResetData" style="color:#CCCCCC;">Reset Defaults</a>
-                           <a class="menuButton" data-role="button"  data-icon="menuAutoZoom"  id="menuAutoZoom" style="color:#CCCCCC;">Auto Zoom</a>
-                           
-                            <!--a class="menuButton" onTouchEnd="clearData();" data-role="button" data-icon="gpsMenu">Clear Search Result</a>
+                        <li>Reset All Settings</li>
+                        <li>Clear Favorite</li>
+                        <li>Show HUD Display<input data-role="switch" id="hud-switch" data-change="onChangeHUD"/></li>
+                        <li>
+                            Measuring Units
+                            <ul data-role="buttongroup" data-index="1">
+                                <li style="font-size: 0.8em;">Metric</li>
+                                <li style="font-size: 0.8em">Imperial</li>
+                            </ul>
+                        </li>
+                        <li>Automatic Zoom<input data-role="switch" id="warning-switch" data-change=""/></li>
+                        
+                    </ul>
+                </li>
+                <!--a class="menuButton" onTouchEnd="clearData();" data-role="button" data-icon="gpsMenu">Clear Search Result</a>
                             <a class="menuButton" onTouchEnd="clearData();">Personal Data</a>
                             <div id="zoomBar" style="margin-bottom:10px; display:none;">
                                 <select id="mySelectZoom" onchange="zoomChoice(this);" style="width:90%; margin-left:15px; font-size:1.1em; font-family:'Open Sans'">
@@ -57,9 +60,6 @@
                             <a class="menuButton">Measuring Units</a>
                             <a class="menuButton">Navigation Settings</a>
                             <a class="menuButton">TTS Settings</a-->
-                        </div>
-                    </ul>
-                </li>
                 <li>User Safty
                     <ul>
                         <li>Enable Safty Warning <input data-role="switch" id="warning-switch" checked="checked" data-change="onChangeWarning"/></li>
@@ -109,12 +109,13 @@
         <div class="view-content">
             <!-- HUD AREA-->
             <div style="height:60px; position:relative; z-index:1">
-                <div class="hud" id="hudLocation" style="display:none;">
+                <div class="hud" id="hudLocation" style="display:block;">
                     <table>
                         <tr>
-                            <td width="50px"><img src="images/ico_phone.png"/></td>
-                            <td><span>Hello World</span></td>
-                            <td width="50px"><img src="images/ico_map.png"/></td>
+                            <td width="40px"><span class="km-icon km-hudIcon"></span></td>
+                            <td width="70px"><span id="currentSpeed" class="largeHUDText">0</span>&nbsp;<span id="speedUnit"></span></td>
+                            <td width="170px"></td>
+                            <td width="40px"><span class="largeHUDText" id="currentHeading"></span></td>
                         </tr>
                     </table>
                     
@@ -133,14 +134,14 @@
             </div>
             <div id="SearchArea" style="display:none;">
                 <div data-role="tabstrip">
-                    <input id="txtSearchField" style="background: rgba(200, 200, 200, 0.5); width:95%; font-size:1.2em; border:0px; border-radius:0px; height:30px; margin-top:5px; padding-left:5px; padding-right:5px;" placeholder="Address or place to search"/>
+                    <input id="txtSearchField" style="background: rgba(200, 200, 200, 0.5); width:95%; font-size:1.2em; border:0px; border-radius:0px; height:30px; margin-top:7px; padding-left:5px; padding-right:5px;" placeholder="Address or place to search"/>
                     <a data-role="button" onTouchEnd="searchForLocation();" data-icon="tsSearchNow" style="width:45px;"></a>
                 </div>
             </div>
         </div>
     </div>
     
-    <!-- Search Result -->
+    <!-- Search Result Layers-->
     <div data-role="modalview" id="modalview-SearchResult" style="width: 90%; height: 220px;" data-modal="false">
         <div class="modalHeader" data-role="header">
             <div data-role="navbar" style="">
@@ -153,10 +154,17 @@
             <span id="popupPhoneNumber"></span><br/>
         </p>
         <div data-role="footer">
-            <div>
-                <div data-role="tabstrip" id="searchPopupTabstrip">
+            <div id="tsFooterSearch">
+                <div data-role="tabstrip" id="searchPopupTabstrip1">
+                    <a data-role="button" onTouchEnd="" data-icon="popupFav"></a>
+                    <a data-role="button" onTouchEnd="removeSearchResult();" data-icon="popupClear"></a>
+                    <a data-role="button" onTouchEnd="calculateRoute();" data-icon="popupNav"></a>
+                </div>
+            </div>
+            <div id="tsFooterLayers">
+                <div data-role="tabstrip" id="searchPopupTabstrip2">
                     <a data-role="button" onTouchEnd="" data-icon="popupCall"></a>
-                    <a data-role="button" onTouchEnd="" data-icon="popupNav"></a>
+                    <a data-role="button" onTouchEnd="calculateRoute();" data-icon="popupNav"></a>
                 </div>
             </div>
         </div>
@@ -178,16 +186,16 @@
             </li>
             <li>Shops / Food
                 <ul>
-                    <li>Supermarkets<input data-role="switch" id="warning-switch" data-change=""/></li>
+                    <li>Supermarkets<input data-role="switch" id="market-switch" data-change="onChangeMarket"/></li>
                     <li>Restaurants<input data-role="switch" id="restaurant-switch" data-change="onChangeRestaurant"/></li>
-                    <li>Coffee Shops<input data-role="switch" id="warning-switch" data-change=""/></li>
+                    <li>Coffee Shops<input class="coffee" data-role="switch" id="coffee-switch" data-change="onChangeCoffee"/></li>
                 </ul>
             </li>
             <li>Emergency Services
                 <ul>
-                    <li>Health Services<input data-role="switch" id="warning-switch" data-change=""/></li>
-                    <li>Pharmacies<input data-role="switch" id="warning-switch" data-change=""/></li>
-                    <li>Police/Fire/EMS<input data-role="switch" id="warning-switch" data-change=""/></li>
+                    <li>Health Services<input data-role="switch" id="health-switch" data-change="onChangeHealth"/></li>
+                    <li>Pharmacies<input data-role="switch" id="pharmacy-switch" data-change="onChangePharmacy"/></li>
+                    <li>Police/Fire/EMS<input data-role="switch" id="ems-switch" data-change="onChangeEMS"/></li>
                 </ul>
             </li>
             <li>Travel

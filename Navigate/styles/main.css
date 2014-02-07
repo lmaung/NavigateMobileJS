@@ -33,19 +33,20 @@ a.modal1xBtnIco.km-widget.km-button {width:50px;background:#FFF; border:transpar
 .km-tsMenuIcon:before, .km-tsMenuIcon:after { content: "\e0f1"; margin-top:-3px;}
 .km-tsSearch:before, .km-tsSearch:after { content: "\e21e"; margin-top:2px; font-size:.8em;}
 .km-tsSearchNow:before, .km-tsSearchNow:after { content: "\e21e"; margin-top:2px; margin-right:20px;font-size:.8em;}
-.km-tsCloseMenu:before, .km-tsCloseMenu:after { content: "\e038"; margin-top:-3px;}
+.km-tsCloseMenu:before, .km-tsCloseMenu:after { content: "\e0b2"; margin-top:-3px;}
 
-.km-popupCall:before, .km-popupCall:after { content: "\e326"; margin-top:-3px;}
+.km-popupCall:before, .km-popupCall:after { content: "\e326"; margin-top:0px; font-size:.8em;}
 .km-popupNav:before, .km-popupNav:after { content: "\e0bb"; margin-top:-3px;}
+.km-popupFav:before, .km-popupFav:after { content: "\e0d7"; margin-top:-3px;}
+.km-popupClear:before, .km-popupClear:after { content: "\e321"; margin-top:0px; font-size:.8em;}
 
 /* Header */
 .km-headerLayersIcon:before, .km-headerLayersIcon:after { content: "\e220"; margin-top:3px; color:#007aff;}
 /* Menu Page */
 a.menuButton.km-widget.km-button {background:#FFF; border:transparent; width:145px; height:75px; margin-top:10px;} 
 a.menuButton.km-widget.km-button span.km-text{font-size:small; text-align:center; margin-left:auto; margin-right:auto; line-height:75px; color:#909090;}
-.km-menuClearSearch:before, .km-menuClearSearch:after { content: "\e21e"; font-size:xx-large; margin-top:-40px; margin-left:50px; color:#909090}
 .km-menuResetData:before, .km-menuResetData:after { content: "\e01d"; font-size:xx-large; margin-top:-40px; margin-left:50px; color:#909090}
-.km-menuHomeLocation:before, .km-menuHomeLocation:after { content: "\e212"; font-size:xx-large; margin-top:-40px; margin-left:50px; color:#909090}
+.km-menuHomeLocation:before, .km-menuHomeLocation:after { content: "\e049"; font-size:xx-large; margin-top:-40px; margin-left:50px; color:#909090}
 .km-menuAutoZoom:before, .km-menuAutoZoom:after { content: "\e080"; font-size:xx-large; margin-top:-40px; margin-left:50px; color:#909090}
 .km-menuHUD:before, .km-menuHUD:after { content: "\e0be"; font-size:xx-large; margin-top:-40px; margin-left:50px; color:#909090}
 .km-menuUnits:before, .km-menuUnits:after { content: "\e104"; font-size:xx-large; margin-top:-40px; margin-left:50px; color:#909090}
@@ -53,6 +54,19 @@ a.menuButton.km-widget.km-button span.km-text{font-size:small; text-align:center
 .km-menuTTS:before, .km-menuTTS:after { content: "\e224"; font-size:xx-large; margin-top:-40px; margin-left:50px; color:#909090}
 /* Modal Page */
 .km-modalClose:before, .km-modalClose:after { content: "\e031"; margin-top:0px; margin-left:-5px; color:#4a4a4a;font-size:1.1em;}
+
+
+/* Switches */
+.km-switch-on .km-switch-container{
+    background-color: rgb(0, 200, 0);
+}
+
+.km-list input[type=checkbox].coffee .km-switch-on .km-list input[type=checkbox].coffee .km-switch-container{
+    background-color: rgb(200, 200, 0);
+}
+
+
+
 /*
 .km-drawer-button:before, .km-drawer-button:after  { content: "\e20f"; color:#007aff; margin-top:3px;}
 .km-gpsSearch:before, .km-gpsSearch:after { content: "\e21e"; margin-top:2px; font-size:.8em;}
@@ -90,6 +104,9 @@ a.menuButton.km-widget.km-button span.km-text{font-size:small; text-align:center
 */
 
 .hud {background:rgba(233,233,233,.8); width:100%; height:50px;}
+.largeHUDText {font-size:1.9em;}
+.smallHUDText {}
+.km-hudIcon:after, .km-hudIcon:before {content: "\e0bb"; color:#aeaba6; font-size:2.5em}
 
 /* RETINA DISPLAY STYLES*/
 @media only screen and (-webkit-min-device-pixel-ratio: 2),(min-resolution: 192dpi) {
