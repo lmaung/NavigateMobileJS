@@ -1,4 +1,8 @@
-NavigateMobileJS
-================
+::: mermaid
+ graph LR;
+ A[Wiki supports Mermaid] --> B[Visit https://mermaidjs.github.io/ for Mermaid syntax];
+:::
 
-PhoneGap / Telerik AppBuilder Mobile GPS Navigation App
+- Test
+1. Hello
+2. World
